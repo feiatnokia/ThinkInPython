@@ -45,9 +45,40 @@ _IELinkClickByText($oIE, "Alarms", 0, 0)
 Sleep(8000)
 _IELinkClickByText($oIE, "Search Alarms", 0, 0)
 
-Sleep(8000)
+Sleep(5000)
 
 
 ;_IELinkClickByText($new, "Alarms")
-_IEQuit($oIE)
+$oForm = _IEFormGetObjByName($oIE, "documentForm")
+
+Local $error = @error
+Local $extended = @extended
+ConsoleWrite("@error creating webpage: " & $error & @CRLF)
+ConsoleWrite("@extended creating webpage: " & $extended & @CRLF)
+;Sleep(4000)
+
+$oProduct = _IEFormElementGetObjByName($oForm, "PRODUCT")
+_IEFormElementSetValue($oProduct, "10")
+Sleep(4000)
+
+$oPRODUCT_RELEASE = _IEFormElementGetObjByName($oForm, "PRODUCT_RELEASE")
+_IEFormElementSetValue($oPRODUCT_RELEASE, "200660")
+Sleep(4000)
+
+$oRELEASE_INCREMENT = _IEFormElementGetObjByName($oForm, "RELEASE_INCREMENT")
+_IEFormElementSetValue($oRELEASE_INCREMENT, "200661")
+Sleep(4000)
+
+
+$oSTATE = _IEFormElementGetObjByName($oForm, "STATE")
+_IEFormElementSetValue($oSTATE, $FZCP_Documentstate)
+Sleep(4000)
+
+$oLatestVesion = _IEFormElementGetObjByName($oForm, "_only_latest_versions")
+ _IEFormElementRadioSelect($oForm, "_only_latest_versions", "_only_latest", 1, "byValue")
+Sleep(1000)
+
+;_IEFormSubmit($oForm, 0)
+
+;_IEQuit($oIE)
 
