@@ -33,11 +33,20 @@ sleep(3000)
 
 Local $sText = _IEBodyReadText($oIE)
 ;MsgBox($MB_SYSTEMMODAL, "Body Text", $sText)
-$oAlarms = _IEGetObjById($oIE, "Alarms")
-ConsoleWrite($oAlarms)
+;$oAlarms = _IEGetObjById($oIE, "Alarms")
+;ConsoleWrite($oAlarms)
 
 Sleep(3000)
-;Local $oLinks = _IEGetObjByName($oIE, "Alarms")
+
+;_IELinkClickByIndex($oIE, 2)
+
+_IELinkClickByText($oIE, "Alarms", 0, 0)
+
+Sleep(8000)
+_IELinkClickByText($oIE, "Search Alarms", 0, 0)
+
+Sleep(8000)
+
 
 ;_IELinkClickByText($new, "Alarms")
 _IEQuit($oIE)
