@@ -40,5 +40,5 @@ Sleep(3000)
 ;Local $oLinks = _IEGetObjByName($oIE, "Alarms")
 
 ;_IELinkClickByText($new, "Alarms")
-;_IEQuit($oIE)
+_IEQuit($oIE)
 
