@@ -13,72 +13,96 @@ Sleep(3000)
 ;re-attach for internal
 $oIE = _IEAttach("RISE Login Page", "title")
 
-Local $error = @error
-Local $extended = @extended
-ConsoleWrite("@error creating webpage: " & $error & @CRLF)
-ConsoleWrite("@extended creating webpage: " & $extended & @CRLF)
+;Local $error = @error
+;Local $extended = @extended
+;ConsoleWrite("@error creating webpage: " & $error & @CRLF)
+;ConsoleWrite("@extended creating webpage: " & $extended & @CRLF)
 
-
+ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Start to log in..." & @CRLF)
 $oUserName = _IEGetObjByName($oIE, "j_username")
 $oPassword = _IEGetObjByName($oIE, "j_password")
 
 _IEFormElementSetValue($oUserName, $user)
 _IEFormElementSetValue($oPassword, $pwd)
 
+Local $flag = 0
 $oLogin = _IEGetObjByName($oIE, "action")
-$new = _IEAction($oLogin, "click")
-ConsoleWrite($new & @CRLF)
+$flag = _IEAction($oLogin, "click")
+
+If $flag == 1 Then
+	ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Login successfully..." & @CRLF)
+Else
+	Exit
+EndIf
 
 sleep(3000)
 
 Local $sText = _IEBodyReadText($oIE)
-;MsgBox($MB_SYSTEMMODAL, "Body Text", $sText)
-;$oAlarms = _IEGetObjById($oIE, "Alarms")
-;ConsoleWrite($oAlarms)
-
-Sleep(3000)
-
-;_IELinkClickByIndex($oIE, 2)
-
 _IELinkClickByText($oIE, "Alarms", 0, 0)
-
-Sleep(8000)
+Sleep(5000)
 _IELinkClickByText($oIE, "Search Alarms", 0, 0)
-
 Sleep(5000)
 
 
-;_IELinkClickByText($new, "Alarms")
+ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Set search condition..." & @CRLF)
 $oForm = _IEFormGetObjByName($oIE, "documentForm")
-
-Local $error = @error
-Local $extended = @extended
-ConsoleWrite("@error creating webpage: " & $error & @CRLF)
-ConsoleWrite("@extended creating webpage: " & $extended & @CRLF)
-;Sleep(4000)
-
 $oProduct = _IEFormElementGetObjByName($oForm, "PRODUCT")
 _IEFormElementSetValue($oProduct, "10")
-Sleep(4000)
+Sleep(3000)
 
 $oPRODUCT_RELEASE = _IEFormElementGetObjByName($oForm, "PRODUCT_RELEASE")
 _IEFormElementSetValue($oPRODUCT_RELEASE, "200660")
-Sleep(4000)
+Sleep(3000)
 
 $oRELEASE_INCREMENT = _IEFormElementGetObjByName($oForm, "RELEASE_INCREMENT")
 _IEFormElementSetValue($oRELEASE_INCREMENT, "200661")
-Sleep(4000)
+Sleep(3000)
 
 
 $oSTATE = _IEFormElementGetObjByName($oForm, "STATE")
 _IEFormElementSetValue($oSTATE, $FZCP_Documentstate)
-Sleep(4000)
+Sleep(3000)
 
 $oLatestVesion = _IEFormElementGetObjByName($oForm, "_only_latest_versions")
  _IEFormElementRadioSelect($oForm, "_only_latest_versions", "_only_latest", 1, "byValue")
 Sleep(1000)
 
-;_IEFormSubmit($oForm, 0)
+$oSubmit = _IEGetObjById($oIE, "searchButton")
+$flag = _IEAction($oSubmit, "click")
+If $flag == 1 Then
+	ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Searching..." & @CRLF)
+Else
+	Exit
+EndIf
+_IELoadWait($oIE)
 
-;_IEQuit($oIE)
+
+$oSelectXML = _IEGetObjById($oIE, "ALARM_NETACT_XML")
+_IEAction($oSelectXML, "click")
+
+Sleep(1000)
+
+$oSelectAll = _IEGetObjByName($oIE, "_make_xml_from_all")
+
+$flag = _IEAction($oSelectAll, "click")
+If $flag == 1 Then
+	ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Conversioning..." & @CRLF)
+Else
+	Exit
+EndIf
+_IELoadWait($oIE)
+
+$oStartConversion = _IEGetObjByName($oIE, "confirmation_submit")
+;$flag = _IEAction($oStartConversion, "click")
+
+If $flag == 1 Then
+	ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Send to email..." & @CRLF)
+Else
+	Exit
+EndIf
+;_IELoadWait($oIE)
+
+Sleep(5000)
+ConsoleWrite(">>>>>>>>>>>>>>>>>>>>>>>Close IE..." & @CRLF)
+_IEQuit($oIE)
 
