@@ -1,3 +1,3 @@
-# ThinkInPython
+# ThinkingInPython
 
 Let's learn python.
