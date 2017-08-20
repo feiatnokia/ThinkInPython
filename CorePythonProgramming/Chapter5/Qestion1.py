@@ -12,3 +12,5 @@ def fun(a):
     a.append(1)
 fun(a)
 print a  # [1]
+
+print a
