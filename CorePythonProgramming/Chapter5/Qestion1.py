@@ -1,11 +1,11 @@
-# string var can't be changed
+# mutable strings, tuples,
 a = 1
 def fun(a):
     a = 2
 fun(a)
 print a  # 1
 
-# the list can be changed
+# immutable list dict
 
 a = []
 def fun(a):
