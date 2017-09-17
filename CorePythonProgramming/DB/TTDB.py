@@ -6,6 +6,7 @@ import MySQLdb
 #
 #########################
 
+
 class TTDB(object):
 
     def __init__(self, host='localhost', user='root', password='root', db='TT_DB'):
